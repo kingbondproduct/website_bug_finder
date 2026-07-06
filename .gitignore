@@ -1,0 +1,18 @@
+node_modules/
+dist/
+build/
+.vite/
+
+# Local data (sqlite db + screenshots)
+data/*
+!data/.gitkeep
+
+# Prisma generated client
+prisma/generated/
+
+# Logs & OS
+*.log
+.DS_Store
+
+# Keep local env out of git except the checked-in example values
+# (this repo ships a working .env for easy local run; remove for real deployments)

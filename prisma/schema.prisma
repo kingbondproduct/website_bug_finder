@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// A single crawl run — either the seeded site-wide crawl or one manual URL.
+model CrawlJob {
+  id              String    @id @default(cuid())
+  mode            String // "site" | "single"
+  status          String    @default("queued") // queued | running | completed | failed
+  rootDomain      String
+  seedUrls        String // JSON array of seed URLs
+  maxDepth        Int       @default(1)
+  maxPages        Int       @default(60)
+  // Denormalized live counters (kept in sync by the worker for cheap reads / SSE).
+  pagesDiscovered Int       @default(0)
+  pagesCrawled    Int       @default(0)
+  bugsFound       Int       @default(0)
+  error           String?
+  createdAt       DateTime  @default(now())
+  startedAt       DateTime?
+  finishedAt      DateTime?
+
+  pages PageDiscovered[]
+  bugs  BugFound[]
+
+  @@map("CrawlJobs")
+}
+
+/// Every URL the crawler discovered/visited during a job.
+model PageDiscovered {
+  id                String   @id @default(cuid())
+  crawlJobId        String
+  url               String
+  depth             Int      @default(0)
+  discoveredFrom    String?
+  status            String   @default("pending") // pending | crawled | error
+  httpStatus        Int?
+  loadTimeMs        Int?
+  desktopScreenshot String?
+  mobileScreenshot  String?
+  createdAt         DateTime @default(now())
+
+  job  CrawlJob   @relation(fields: [crawlJobId], references: [id], onDelete: Cascade)
+  bugs BugFound[]
+
+  @@unique([crawlJobId, url])
+  @@index([crawlJobId, status])
+  @@map("PagesDiscovered")
+}
+
+/// A categorized bug found on a page.
+model BugFound {
+  id         String   @id @default(cuid())
+  crawlJobId String
+  pageId     String
+  url        String
+  category   String // one of the 5 BUG_CATEGORIES
+  severity   String // Critical | High | Medium | Low
+  type       String // machine key, e.g. "broken-image", "http-5xx"
+  message    String
+  viewport   String // desktop | mobile | both
+  evidence   String? // JSON blob
+  createdAt  DateTime @default(now())
+
+  job  CrawlJob       @relation(fields: [crawlJobId], references: [id], onDelete: Cascade)
+  page PageDiscovered @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([crawlJobId, category, severity])
+  @@map("BugsFound")
+}
