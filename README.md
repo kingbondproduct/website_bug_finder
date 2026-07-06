@@ -8,6 +8,13 @@
   <em>Server Error &nbsp;·&nbsp; Visual Bug &nbsp;·&nbsp; Broken Link &nbsp;·&nbsp; Copy Issue &nbsp;·&nbsp; Performance Bottleneck</em>
 </p>
 
+<p align="center">
+  🌐 <strong>Live dashboard:</strong>
+  <a href="https://kingbondproduct.github.io/website_bug_finder/">kingbondproduct.github.io/website_bug_finder</a>
+  <br/>
+  <sub>Published to GitHub Pages — a static snapshot of the latest crawl, refreshed nightly and on demand via GitHub Actions.</sub>
+</p>
+
 ---
 
 ## Table of contents
@@ -118,7 +125,32 @@ Then open **http://localhost:5173**.
 
 ## 🧭 End-to-end user flow
 
-From opening the platform to reading the results — what a QA engineer actually does.
+There are **two ways to use the platform**, depending on who you are:
+
+| Mode | Who | Where | Can trigger crawls? |
+| --- | --- | --- | --- |
+| **Published (static)** | Reviewers / stakeholders | [GitHub Pages site](https://kingbondproduct.github.io/website_bug_finder/) | No — read-only snapshot; refreshed via GitHub Actions |
+| **Local (live)** | Engineers / QA running it | `localhost:5173` (`npm run dev`) | Yes — the interactive **Trigger Manual Crawl** button |
+
+### A. Published site (production — most people)
+
+```
+ ①  Open the Pages URL          ②  Read the latest snapshot        ③  Refresh (maintainers)
+ ┌────────────────────────┐     ┌────────────────────────┐        ┌────────────────────────┐
+ │ …github.io/            │ ──▶ │ "Last crawled: <time>"  │        │ GitHub → Actions tab   │
+ │   website_bug_finder/  │     │ progress · bug matrix   │  ───▶  │ "Publish" → Run workflow│
+ │ (published snapshot)   │     │ filter · search         │        │ (or nightly schedule)  │
+ └────────────────────────┘     └────────────────────────┘        └────────────────────────┘
+```
+
+1. **Open** the [live dashboard](https://kingbondproduct.github.io/website_bug_finder/). The header shows **Last crawled: &lt;timestamp&gt;**.
+2. **Read** the latest crawl's results — the progress summary and the full **Bug Matrix**. Filter by
+   category & severity, or free-text search URL / message / type. (No trigger button here — it's a
+   static snapshot.)
+3. **Refresh the data** (maintainers only): re-run the crawl from **GitHub → Actions → “Publish” →
+   Run workflow**, or wait for the **nightly** run. See [Publish to GitHub Pages](#-publish-to-github-pages-github-only).
+
+### B. Local app (live — engineers running a crawl)
 
 ```
  ①  Open dashboard            ②  Choose scope            ③  Trigger
@@ -137,10 +169,8 @@ From opening the platform to reading the results — what a QA engineer actually
  └───────────────────┘        └───────────────────┘      └───────────────────┘
 ```
 
-**Step by step:**
-
-1. **Open the platform** — go to **http://localhost:5173**. You land on the dashboard with the
-   **Trigger Crawl** panel (left) and a results area (right).
+1. **Open the platform** — go to **http://localhost:5173** (after `npm run dev`). You land on the
+   dashboard with the **Trigger Crawl** panel (left) and a results area (right).
 2. **Choose what to audit** using the mode toggle:
    - **Single URL** — paste *any* page into the **Target URL** field
      (e.g. `https://www.atherenergy.com/rizta` or a custom staging URL). Audits that one page
@@ -164,8 +194,20 @@ From opening the platform to reading the results — what a QA engineer actually
 
 ## 🔄 End-to-end technical flow
 
-What happens under the hood between clicking the button and seeing results. File references are
-clickable so you can follow the path in code.
+The same crawl engine powers two paths. The heavy lifting —
+[`crawler/engine.ts`](apps/api/src/crawler/engine.ts) (`crawlSite` + all
+[checks/](apps/api/src/crawler/checks/) + [`categorize.ts`](apps/api/src/crawler/categorize.ts)) — is
+**storage-agnostic**: it writes results through a `CrawlSink` interface. Two sinks implement it, so
+the exact same crawl behavior serves both the live app and the published site:
+
+| Path | Trigger | Sink | Output | Consumer |
+| --- | --- | --- | --- | --- |
+| **A. Live** | Browser button → API | `PrismaSink` | SQLite rows + SSE | Local dashboard (`:5173`) |
+| **B. Publish** | GitHub Actions | `JsonSink` | static JSON + PNGs | GitHub Pages dashboard |
+
+### Path A — Live (local app)
+
+What happens between clicking the button and seeing results. File references are clickable.
 
 ```
  Browser (React SPA :5173)                Fastify API + worker (:3001)            SQLite (Prisma)
@@ -232,6 +274,48 @@ clickable so you can follow the path in code.
 7. **Complete.** When the queue drains, the job is marked `completed` and a `done` event is emitted.
 8. **Read results.** `BugMatrix` fetches `GET /api/crawls/:id/bugs` with filters; screenshots are
    served by `@fastify/static` from `data/screenshots/<jobId>/`.
+
+### Path B — Publish (GitHub Actions → Pages)
+
+No server runs in production. GitHub Actions runs the crawl in CI, emits static files, and deploys
+them to GitHub Pages, where the same React app reads JSON instead of an API.
+
+```
+ GitHub Actions (workflow_dispatch / nightly cron)                         GitHub Pages
+ ─────────────────────────────────────────────────                        ────────────
+ .github/workflows/publish.yml
+   │  npm ci  ·  playwright install chromium
+   ▼
+ npm run crawl:static  ──▶  apps/api/src/batch.ts
+   │                          │ crawlSite(cfg, JsonSink)      ← same engine, checks, categorize
+   │                          │  desktop + mobile per page
+   │                          ▼  writes to apps/web/public/data/
+   │                             data/jobs.json
+   │                             data/<jobId>/pages.json · bugs.json
+   │                             data/<jobId>/screenshots/*.png
+   ▼
+ npm run build  (VITE_STATIC=1, VITE_BASE=/website_bug_finder/)
+   │  Vite copies public/data → dist/data ; api.ts compiled in static mode
+   ▼
+ actions/upload-pages-artifact (dist)  ──▶  actions/deploy-pages  ──▶  https://…github.io/website_bug_finder/
+                                                                            │
+ Browser (static SPA) ◀──────────────────────────────────────────────────┘
+   │ api.ts (VITE_STATIC): fetch `${BASE_URL}data/jobs.json`, `…/<id>/bugs.json`
+   │ JobProgress skips SSE (job already "completed"); BugMatrix filters client-side
+   ▼ renders the "published snapshot" — Last-crawled header, progress, bug matrix
+```
+
+1. **Trigger.** [`publish.yml`](.github/workflows/publish.yml) runs on manual **Run workflow** or the
+   nightly cron (scheduled runs default to a site crawl).
+2. **Crawl → JSON.** `npm run crawl:static` ([`batch.ts`](apps/api/src/batch.ts)) runs the shared
+   `crawlSite` engine against a **`JsonSink`** ([`crawler/engine.ts`](apps/api/src/crawler/engine.ts)),
+   writing `jobs.json` + `<jobId>/{pages,bugs}.json` + screenshots into `apps/web/public/data/`.
+3. **Build.** `npm run build` with `VITE_STATIC=1` compiles the dashboard in
+   [static mode](apps/web/src/api.ts); Vite copies `public/data` into `dist/` and applies the
+   `VITE_BASE` sub-path.
+4. **Deploy.** The `dist/` artifact is uploaded and deployed to GitHub Pages.
+5. **View.** The static SPA reads the JSON files (no `/api`), renders the read-only
+   **published snapshot**, and shows the **Last crawled** timestamp.
 
 ---
 
