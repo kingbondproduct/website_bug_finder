@@ -52,19 +52,31 @@ export function App() {
 
   const selectedJob = jobs.find((j) => j.id === selectedJobId) ?? null;
 
+  // Most-recent crawl timestamp (jobs are returned newest-first).
+  const lastCrawledIso = jobs[0]?.finishedAt ?? jobs[0]?.createdAt ?? null;
+  const lastCrawled = lastCrawledIso ? new Date(lastCrawledIso).toLocaleString() : null;
+
   return (
     <div className="min-h-screen">
       <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-ather flex items-center justify-center font-bold text-slate-950">
-            A
+        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-lg bg-ather flex items-center justify-center font-bold text-slate-950">
+              A
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold">Ather Website Bug Finder</h1>
+              <p className="text-xs text-slate-400">
+                Desktop + Mobile crawl · Server / Visual / Link / Copy / Performance audits
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-lg font-semibold">Ather Website Bug Finder</h1>
-            <p className="text-xs text-slate-400">
-              Desktop + Mobile crawl · Server / Visual / Link / Copy / Performance audits
-            </p>
-          </div>
+          {IS_STATIC && lastCrawled && (
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-wide text-slate-500">Last crawled</div>
+              <div className="text-xs text-slate-300">{lastCrawled}</div>
+            </div>
+          )}
         </div>
       </header>
 

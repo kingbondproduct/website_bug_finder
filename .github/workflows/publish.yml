@@ -1,6 +1,7 @@
 name: Publish (crawl + Pages)
 
-# Manual-only: run from the Actions tab → "Publish (crawl + Pages)" → Run workflow.
+# Runs on a nightly schedule, and on demand from the Actions tab →
+# "Publish (crawl + Pages)" → Run workflow.
 on:
   workflow_dispatch:
     inputs:
@@ -21,6 +22,10 @@ on:
         description: Page cap (site mode)
         type: string
         default: "30"
+  schedule:
+    # Nightly at 00:30 UTC. Scheduled runs have no inputs, so the env below
+    # falls back to a site crawl (depth 1, 30 pages).
+    - cron: "30 0 * * *"
 
 permissions:
   contents: read
@@ -52,10 +57,11 @@ jobs:
       - name: Crawl → static JSON + screenshots
         run: npm run crawl:static
         env:
-          CRAWL_MODE: ${{ inputs.mode }}
-          CRAWL_URL: ${{ inputs.url }}
-          CRAWL_MAX_DEPTH: ${{ inputs.maxDepth }}
-          CRAWL_MAX_PAGES: ${{ inputs.maxPages }}
+          # `inputs.*` are empty on scheduled runs — fall back to a site crawl.
+          CRAWL_MODE: ${{ inputs.mode || 'site' }}
+          CRAWL_URL: ${{ inputs.url || 'https://www.atherenergy.com/contact' }}
+          CRAWL_MAX_DEPTH: ${{ inputs.maxDepth || '1' }}
+          CRAWL_MAX_PAGES: ${{ inputs.maxPages || '30' }}
 
       - name: Build dashboard (static mode)
         run: npm run build
