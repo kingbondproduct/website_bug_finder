@@ -1,10 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CrawlJobDTO } from './api';
-import { api } from './api';
+import { api, IS_STATIC } from './api';
 import { TriggerCrawlPanel } from './components/TriggerCrawlPanel';
 import { JobProgress } from './components/JobProgress';
 import { JobsList } from './components/JobsList';
 import { BugMatrix } from './components/BugMatrix';
+
+/** Shown in the published (GitHub Pages) build where live crawls aren't available. */
+function PublishedNotice() {
+  return (
+    <section className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400 mb-2">
+        Published snapshot
+      </h2>
+      <p className="text-sm text-slate-300">
+        This is a static, published view of the latest crawl results.
+      </p>
+      <p className="mt-3 text-xs text-slate-400">
+        New crawls run via the <span className="text-ather">GitHub Actions</span> “Publish”
+        workflow. To refresh these results, run that workflow from the repository’s Actions tab.
+      </p>
+    </section>
+  );
+}
 
 export function App() {
   const [jobs, setJobs] = useState<CrawlJobDTO[]>([]);
@@ -52,7 +70,7 @@ export function App() {
 
       <main className="mx-auto max-w-7xl px-6 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 space-y-6">
-          <TriggerCrawlPanel onTriggered={handleTriggered} />
+          {IS_STATIC ? <PublishedNotice /> : <TriggerCrawlPanel onTriggered={handleTriggered} />}
           <JobsList jobs={jobs} selectedJobId={selectedJobId} onSelect={setSelectedJobId} />
         </div>
 

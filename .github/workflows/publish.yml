@@ -1,0 +1,80 @@
+name: Publish (crawl + Pages)
+
+# Manual-only: run from the Actions tab → "Publish (crawl + Pages)" → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Crawl scope
+        type: choice
+        default: site
+        options: [site, single]
+      url:
+        description: Target URL (single mode only)
+        type: string
+        default: https://www.atherenergy.com/contact
+      maxDepth:
+        description: Recursion depth (site mode)
+        type: string
+        default: "1"
+      maxPages:
+        description: Page cap (site mode)
+        type: string
+        default: "30"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Crawl → static JSON + screenshots
+        run: npm run crawl:static
+        env:
+          CRAWL_MODE: ${{ inputs.mode }}
+          CRAWL_URL: ${{ inputs.url }}
+          CRAWL_MAX_DEPTH: ${{ inputs.maxDepth }}
+          CRAWL_MAX_PAGES: ${{ inputs.maxPages }}
+
+      - name: Build dashboard (static mode)
+        run: npm run build
+        env:
+          VITE_STATIC: "1"
+          VITE_BASE: /website_bug_finder/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

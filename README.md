@@ -22,8 +22,9 @@
 8. [Configuration](#-configuration)
 9. [API reference](#-api-reference)
 10. [Testing & driving the app](#-testing--driving-the-app)
-11. [Project layout](#-project-layout)
-12. [Further docs](#-further-docs)
+11. [Publish to GitHub Pages](#-publish-to-github-pages-github-only)
+12. [Project layout](#-project-layout)
+13. [Further docs](#-further-docs)
 
 ---
 
@@ -299,6 +300,47 @@ for the full run playbook and gotchas.
 
 ---
 
+## 🌐 Publish to GitHub Pages (GitHub-only)
+
+The platform can be published using **GitHub alone** — no external host. GitHub
+Pages serves static files and GitHub Actions runs the crawler in CI, so the
+published site is a **static snapshot**: Actions crawls → writes JSON +
+screenshots → Pages hosts the dashboard reading them. (The live "Trigger Manual
+Crawl" button needs a server, so in the published build it's replaced by a
+"re-run the workflow" notice.)
+
+**How it works**
+```
+ Actions (workflow_dispatch)
+   npm run crawl:static   →  apps/web/public/data/{jobs.json, <id>/{pages,bugs}.json, screenshots}
+   npm run build          →  static dashboard (VITE_STATIC=1, VITE_BASE=/website_bug_finder/)
+   deploy-pages           →  https://<owner>.github.io/website_bug_finder/
+```
+
+**One-time setup**
+1. Repo **Settings → Pages → Build and deployment → Source = "GitHub Actions"**.
+2. That's it — the workflow ([.github/workflows/publish.yml](.github/workflows/publish.yml)) handles the rest.
+
+**Publish / refresh results**
+- Go to the **Actions** tab → **"Publish (crawl + Pages)"** → **Run workflow**, choosing:
+  - `mode` — `site` (26 seeds + recursion) or `single`
+  - `url` (single mode), `maxDepth`, `maxPages` (site mode)
+- When it finishes, the site is live at `https://kingbondproduct.github.io/website_bug_finder/`.
+
+**Try the static build locally**
+```bash
+CRAWL_MODE=single CRAWL_URL=https://www.atherenergy.com/contact npm run crawl:static
+VITE_STATIC=1 VITE_BASE=/ npm run build
+npx --workspace @bugfinder/web vite preview --port 4173   # → http://localhost:4173
+```
+
+> **Notes:** the published site shows the **latest run only** (results aren't committed —
+> each run republishes via the Pages artifact). Keep `maxPages` modest — full-page PNGs are
+> large and Pages caps files at 100MB / sites at ~1GB. For a custom domain or user/org Pages,
+> build with `VITE_BASE=/`.
+
+---
+
 ## 📁 Project layout
 
 ```
@@ -308,12 +350,17 @@ apps/api/src/
   server.ts                     # Fastify app + SSE + static screenshots
   routes/crawls.ts              # REST endpoints
   queue/                        # in-process queue + event bus
+  batch.ts                      # CI entry: crawl → static JSON + screenshots (JsonSink)
   crawler/
-    crawl.ts                    # BFS orchestrator (seeds + recursion)
+    engine.ts                   # storage-agnostic BFS orchestrator + CrawlSink interface
+    crawl.ts                    # live-worker wrapper (PrismaSink + SSE)
+    prismaSink.ts               # DB persistence sink
     categorize.ts               # ⭐ the Bug Categorization Engine
     checks/                     # link · console · image · content · performance · screenshot
 apps/web/src/                   # React dashboard (TriggerCrawlPanel · JobProgress · BugMatrix · JobsList)
+  api.ts                        # data layer: live (server) + static (Pages) adapters
 docs/                           # taxonomy · changelog · roadmap
+.github/workflows/publish.yml   # manual crawl → GitHub Pages deploy
 .claude/skills/run-website-bug-finder/   # run skill + Playwright driver
 ```
 

@@ -17,6 +17,7 @@
     "dev:web": "npm --workspace @bugfinder/web run dev",
     "build": "npm --workspace @bugfinder/web run build",
     "start": "tsx apps/api/src/server.ts",
+    "crawl:static": "tsx apps/api/src/batch.ts",
     "test": "vitest run"
   },
   "devDependencies": {

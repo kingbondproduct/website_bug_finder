@@ -7,6 +7,9 @@ build/
 data/*
 !data/.gitkeep
 
+# Generated static crawl results for the Pages build (produced in CI)
+apps/web/public/data/
+
 # Prisma generated client
 prisma/generated/
 

@@ -13,10 +13,19 @@ and this project aims to adhere to [Semantic Versioning](https://semver.org/spec
 ## [Unreleased]
 
 ### Added
-- _(nothing yet)_
+- **GitHub-only publishing** — a `workflow_dispatch` Actions workflow
+  (`.github/workflows/publish.yml`) crawls in CI and deploys a static dashboard
+  to GitHub Pages. New `apps/api/src/batch.ts` (`npm run crawl:static`) emits
+  `data/{jobs.json, <id>/{pages,bugs}.json, screenshots}`.
+- **Static frontend mode** — `apps/web/src/api.ts` reads pre-generated JSON when
+  built with `VITE_STATIC=1`; `App` shows a "published snapshot" notice in place
+  of the live trigger panel. `VITE_BASE` sets the Pages sub-path.
 
 ### Changed
-- _(nothing yet)_
+- **Storage-agnostic crawl engine** — extracted `crawler/engine.ts`
+  (`crawlSite` + `CrawlSink` interface) shared by the live worker
+  (`PrismaSink`) and CI batch runner (`JsonSink`); `crawl.ts` is now a thin
+  wrapper. `checks/screenshot.ts` takes a configurable output dir + URL prefix.
 
 ### Fixed
 - _(nothing yet)_
