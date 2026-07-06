@@ -14,7 +14,8 @@ with QA needs. Items are grouped by horizon, not committed dates.
 | 🟢 | **Active link probing** | Broken Link | HEAD-check anchor targets not observed during load (capped, polite), incl. external links. |
 | 🟢 | **Core Web Vitals** | Performance | LCP / CLS / INP with per-metric graded severities, replacing the single load threshold. |
 | 🟢 | **Scheduled crawls** | Platform | Add a `schedule:` cron trigger to the publish workflow (e.g. nightly) so Pages stays fresh automatically. |
-| 🟢 | **Published run history** | Platform | Commit results to a branch so the static dashboard shows multiple past runs, not just the latest. |
+| ✅ | **Published run history** | Platform | Done — results persist across runs on a `crawl-data` branch; dashboard lists the last N runs (capped by `CRAWL_KEEP_RUNS`). |
+| ✅ | **Target a specific URL** | Platform | Done — polished local Single-URL flow (validation, presets, deep-links) + published "Audit a URL" panel that hands off to Actions. |
 | 🟢 | **Exports** | Platform | Download a job's bugs as CSV / JSON for sharing and ticket creation. |
 | 🟡 | **Accessibility audit (a11y)** | New category? | Integrate `axe-core` for WCAG checks (contrast, alt text, labels, roles). |
 | 🟡 | **Config-driven thresholds per page type** | Platform | Different perf/severity budgets for marketing vs. app pages. |

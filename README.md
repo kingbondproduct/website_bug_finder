@@ -145,10 +145,14 @@ There are **two ways to use the platform**, depending on who you are:
 
 1. **Open** the [live dashboard](https://kingbondproduct.github.io/website_bug_finder/). The header shows **Last crawled: &lt;timestamp&gt;**.
 2. **Read** the latest crawl's results — the progress summary and the full **Bug Matrix**. Filter by
-   category & severity, or free-text search URL / message / type. (No trigger button here — it's a
-   static snapshot.)
-3. **Refresh the data** (maintainers only): re-run the crawl from **GitHub → Actions → “Publish” →
-   Run workflow**, or wait for the **nightly** run. See [Publish to GitHub Pages](#-publish-to-github-pages-github-only).
+   category & severity, or free-text search URL / message / type. **Crawl History** (left) retains
+   the last several runs (site-wide + individual URL checks) — click any to load its results.
+3. **Audit a specific URL** — the **“Audit a specific URL”** panel (left) lets you pick/paste an
+   Ather URL; clicking **Audit this URL** copies it to your clipboard and opens the Actions
+   **Publish** workflow. Choose `mode = single`, paste the URL, and **Run workflow**; the result
+   lands in Crawl History when it finishes.
+4. **Refresh all data** (maintainers): re-run from **GitHub → Actions → “Publish” → Run workflow**,
+   or wait for the **nightly** run. See [Publish to GitHub Pages](#-publish-to-github-pages-github-only).
 
 ### B. Local app (live — engineers running a crawl)
 
@@ -172,9 +176,11 @@ There are **two ways to use the platform**, depending on who you are:
 1. **Open the platform** — go to **http://localhost:5173** (after `npm run dev`). You land on the
    dashboard with the **Trigger Crawl** panel (left) and a results area (right).
 2. **Choose what to audit** using the mode toggle:
-   - **Single URL** — paste *any* page into the **Target URL** field
-     (e.g. `https://www.atherenergy.com/rizta` or a custom staging URL). Audits that one page
-     (depth 0). Fast (~10s) — ideal for spot checks and PR verification.
+   - **Single URL** — type or pick a page in the **Target URL** field. The field **suggests the 26
+     Ather pages** (datalist), **validates** the URL, and **warns** if it's off `atherenergy.com`
+     (still crawlable). Audits that one page (depth 0). Fast (~10s) — ideal for spot checks and PR
+     verification. Tip: deep-link a pre-filled audit with
+     `…/?url=https://www.atherenergy.com/rizta&mode=single` (add `&run=1` to auto-start).
    - **Site-wide (26 seeds)** — audits the 26 canonical Ather pages, then recursively follows
      in-domain links. Set **Max depth** (how far to follow links) and **Max pages** (a safety cap).
 3. **Click “Trigger Manual Crawl.”** The job is created and starts immediately; it also appears in

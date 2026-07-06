@@ -28,7 +28,7 @@ on:
     - cron: "30 0 * * *"
 
 permissions:
-  contents: read
+  contents: write # push accumulated results to the crawl-data branch
   pages: write
   id-token: write
 
@@ -54,6 +54,17 @@ jobs:
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
+      - name: Restore prior crawl history (crawl-data branch)
+        run: |
+          mkdir -p apps/web/public/data
+          if git clone --depth=1 --branch crawl-data \
+              "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/prev 2>/dev/null; then
+            cp -r /tmp/prev/data/. apps/web/public/data/ 2>/dev/null || true
+            echo "restored prior runs: $(ls -1 apps/web/public/data 2>/dev/null | grep -v jobs.json | wc -l)"
+          else
+            echo "no crawl-data branch yet — starting fresh history"
+          fi
+
       - name: Crawl → static JSON + screenshots
         run: npm run crawl:static
         env:
@@ -73,6 +84,21 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/dist
+
+      - name: Persist crawl history (crawl-data branch)
+        run: |
+          tmp=$(mktemp -d)
+          mkdir -p "$tmp/data"
+          cp -r apps/web/public/data/. "$tmp/data/" 2>/dev/null || true
+          cd "$tmp"
+          git init -q
+          git checkout -q -b crawl-data
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "crawl data (run ${{ github.run_number }})" || { echo "nothing to persist"; exit 0; }
+          # Orphan force-push keeps only the latest snapshot (which already holds the capped history).
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" crawl-data
 
   deploy:
     needs: build

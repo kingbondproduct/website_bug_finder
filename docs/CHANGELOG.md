@@ -13,6 +13,15 @@ and this project aims to adhere to [Semantic Versioning](https://semver.org/spec
 ## [Unreleased]
 
 ### Added
+- **Target a specific URL → find its bugs** (local + published):
+  - Local Single-URL flow polished — URL validation, off-`atherenergy.com` warning, a datalist of
+    the 26 seed pages, and shareable deep-links (`?url=…&mode=single&run=1`).
+  - Published site gains an **"Audit a specific URL"** panel that copies the URL and deep-links to
+    the Actions "Publish" workflow (GitHub-only, no secrets in the browser).
+- **Per-run history** — the batch runner accumulates `jobs.json` (capped by `CRAWL_KEEP_RUNS`,
+  default 15, pruning old run dirs), and the publish workflow persists results across runs via a
+  dedicated `crawl-data` branch. Single-URL runs no longer clobber the site-wide snapshot; all runs
+  appear in Crawl History. Seed list moved to `@bugfinder/shared` for reuse.
 - **GitHub-only publishing** — a `workflow_dispatch` Actions workflow
   (`.github/workflows/publish.yml`) crawls in CI and deploys a static dashboard
   to GitHub Pages. New `apps/api/src/batch.ts` (`npm run crawl:static`) emits

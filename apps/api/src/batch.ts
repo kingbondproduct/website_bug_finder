@@ -16,7 +16,7 @@
 //   CRAWL_MAX_PAGES=<n>         (site mode, default 30)
 //   OUT_DIR=<dir>              (default: apps/web/public — Vite copies public/ → dist/)
 
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import type { BugDTO, CrawlJobDTO, PageDTO } from '@bugfinder/shared';
@@ -143,15 +143,32 @@ async function main(): Promise<void> {
     finishedAt,
   };
 
+  // This run's own files.
   await mkdir(path.join(dataDir, jobId), { recursive: true });
-  await writeFile(path.join(dataDir, 'jobs.json'), JSON.stringify([job], null, 2));
   await writeFile(path.join(dataDir, jobId, 'pages.json'), JSON.stringify(sink.pages, null, 2));
   await writeFile(path.join(dataDir, jobId, 'bugs.json'), JSON.stringify(sink.bugs, null, 2));
+
+  // Accumulate into jobs.json (newest first), capped; prune dropped runs' dirs.
+  const keepRuns = intEnv('CRAWL_KEEP_RUNS', 15);
+  let existing: CrawlJobDTO[] = [];
+  try {
+    const parsed = JSON.parse(await readFile(path.join(dataDir, 'jobs.json'), 'utf8'));
+    if (Array.isArray(parsed)) existing = parsed;
+  } catch {
+    /* first run — no prior history */
+  }
+  const merged = [job, ...existing.filter((j) => j && j.id !== jobId)];
+  const keep = merged.slice(0, keepRuns);
+  const pruned = merged.slice(keepRuns);
+  await writeFile(path.join(dataDir, 'jobs.json'), JSON.stringify(keep, null, 2));
+  for (const p of pruned) {
+    await rm(path.join(dataDir, p.id), { recursive: true, force: true }).catch(() => {});
+  }
 
   const byCat: Record<string, number> = {};
   for (const b of sink.bugs) byCat[b.category] = (byCat[b.category] ?? 0) + 1;
   console.log(`[batch] done: ${counters.crawled} pages, ${counters.bugs} bugs ${JSON.stringify(byCat)}`);
-  console.log(`[batch] wrote jobs.json + ${jobId}/{pages,bugs}.json + screenshots`);
+  console.log(`[batch] history: ${keep.length} run(s) kept${pruned.length ? `, ${pruned.length} pruned` : ''} (cap ${keepRuns})`);
 }
 
 main().catch((err) => {
