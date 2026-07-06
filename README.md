@@ -283,45 +283,55 @@ What happens between clicking the button and seeing results. File references are
 
 ### Path B — Publish (GitHub Actions → Pages)
 
-No server runs in production. GitHub Actions runs the crawl in CI, emits static files, and deploys
-them to GitHub Pages, where the same React app reads JSON instead of an API.
+No server runs in production. GitHub Actions runs the crawl in CI, **accumulates results across
+runs**, emits static files, and deploys them to GitHub Pages, where the same React app reads JSON
+instead of an API.
 
 ```
- GitHub Actions (workflow_dispatch / nightly cron)                         GitHub Pages
- ─────────────────────────────────────────────────                        ────────────
- .github/workflows/publish.yml
-   │  npm ci  ·  playwright install chromium
+ Trigger ─┬─ manual "Run workflow"  (site OR single URL)
+          ├─ published "Audit a URL" panel → opens the dispatch page (mode=single)
+          └─ nightly cron (00:30 UTC → site crawl)
+                       │
+                       ▼
+ GitHub Actions  ·  .github/workflows/publish.yml                          GitHub Pages
+ ────────────────────────────────────────────────                         ────────────
+   │ npm ci · playwright install chromium
+   │ restore prior runs:  git clone branch `crawl-data` → apps/web/public/data/
    ▼
  npm run crawl:static  ──▶  apps/api/src/batch.ts
    │                          │ crawlSite(cfg, JsonSink)      ← same engine, checks, categorize
-   │                          │  desktop + mobile per page
-   │                          ▼  writes to apps/web/public/data/
-   │                             data/jobs.json
-   │                             data/<jobId>/pages.json · bugs.json
-   │                             data/<jobId>/screenshots/*.png
+   │                          │ desktop + mobile per page
+   │                          ▼ ACCUMULATE into apps/web/public/data/ (newest-first,
+   │                             capped by CRAWL_KEEP_RUNS, prunes old run dirs)
+   │                             data/jobs.json  ·  data/<jobId>/{pages,bugs}.json  ·  screenshots
    ▼
  npm run build  (VITE_STATIC=1, VITE_BASE=/website_bug_finder/)
    │  Vite copies public/data → dist/data ; api.ts compiled in static mode
    ▼
- actions/upload-pages-artifact (dist)  ──▶  actions/deploy-pages  ──▶  https://…github.io/website_bug_finder/
+ upload-pages-artifact (dist) ──▶ deploy-pages ──▶ https://…github.io/website_bug_finder/
+   │                                                                        │
+   └─ persist history:  force-push apps/web/public/data → branch `crawl-data`│
                                                                             │
  Browser (static SPA) ◀──────────────────────────────────────────────────┘
    │ api.ts (VITE_STATIC): fetch `${BASE_URL}data/jobs.json`, `…/<id>/bugs.json`
-   │ JobProgress skips SSE (job already "completed"); BugMatrix filters client-side
-   ▼ renders the "published snapshot" — Last-crawled header, progress, bug matrix
+   │ JobProgress skips SSE (job "completed"); BugMatrix filters client-side; JobsList lists all runs
+   ▼ renders the "published snapshot" — Last-crawled header, Crawl History, bug matrix
 ```
 
-1. **Trigger.** [`publish.yml`](.github/workflows/publish.yml) runs on manual **Run workflow** or the
-   nightly cron (scheduled runs default to a site crawl).
-2. **Crawl → JSON.** `npm run crawl:static` ([`batch.ts`](apps/api/src/batch.ts)) runs the shared
-   `crawlSite` engine against a **`JsonSink`** ([`crawler/engine.ts`](apps/api/src/crawler/engine.ts)),
-   writing `jobs.json` + `<jobId>/{pages,bugs}.json` + screenshots into `apps/web/public/data/`.
-3. **Build.** `npm run build` with `VITE_STATIC=1` compiles the dashboard in
-   [static mode](apps/web/src/api.ts); Vite copies `public/data` into `dist/` and applies the
-   `VITE_BASE` sub-path.
-4. **Deploy.** The `dist/` artifact is uploaded and deployed to GitHub Pages.
-5. **View.** The static SPA reads the JSON files (no `/api`), renders the read-only
-   **published snapshot**, and shows the **Last crawled** timestamp.
+1. **Trigger.** [`publish.yml`](.github/workflows/publish.yml) runs on manual **Run workflow**
+   (site or single URL), the published **"Audit a URL"** panel (deep-links to the dispatch page with
+   `mode=single`), or the nightly cron (defaults to a site crawl).
+2. **Restore history.** The build shallow-clones the **`crawl-data`** branch into
+   `apps/web/public/data/` so prior runs survive (skipped gracefully on the first ever run).
+3. **Crawl → accumulate.** `npm run crawl:static` ([`batch.ts`](apps/api/src/batch.ts)) runs the
+   shared `crawlSite` engine against a **`JsonSink`** ([`crawler/engine.ts`](apps/api/src/crawler/engine.ts)),
+   then **prepends** the new run to `jobs.json`, caps to `CRAWL_KEEP_RUNS`, and prunes dropped run dirs.
+4. **Build.** `npm run build` with `VITE_STATIC=1` compiles the dashboard in
+   [static mode](apps/web/src/api.ts); Vite copies `public/data` into `dist/` and applies `VITE_BASE`.
+5. **Deploy.** The `dist/` artifact is uploaded and deployed to GitHub Pages.
+6. **Persist.** The updated `data/` is force-pushed back to the **`crawl-data`** branch for the next run.
+7. **View.** The static SPA reads the JSON (no `/api`), renders the **published snapshot** with a
+   **Crawl History** of the retained runs and the **Last crawled** timestamp.
 
 ---
 
@@ -336,6 +346,17 @@ Set in [`.env`](.env):
 | `CRAWL_MAX_PAGES` | `60` | Page cap per job |
 | `CRAWL_PAGE_CONCURRENCY` | `3` | Pages crawled in parallel |
 | `PERF_LOAD_THRESHOLD_MS` | `4000` | Load time above which a page is flagged as a Performance Bottleneck |
+
+**Batch / publish (CI)** — used by `npm run crawl:static` and the publish workflow:
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `CRAWL_MODE` | `site` | `site` (26 seeds + recursion) or `single` |
+| `CRAWL_URL` | — | Target URL when `CRAWL_MODE=single` |
+| `CRAWL_KEEP_RUNS` | `15` | Runs retained in published Crawl History (older run dirs pruned) |
+| `VITE_STATIC` | — | `1` builds the dashboard in static (Pages) mode |
+| `VITE_BASE` | `/` | Public base path (`/website_bug_finder/` for project Pages) |
+| `VITE_GH_REPO` | `kingbondproduct/website_bug_finder` | Repo the "Audit a URL" panel deep-links to |
 
 ---
 
@@ -392,42 +413,45 @@ for the full run playbook and gotchas.
 
 ## 🌐 Publish to GitHub Pages (GitHub-only)
 
-The platform can be published using **GitHub alone** — no external host. GitHub
-Pages serves static files and GitHub Actions runs the crawler in CI, so the
-published site is a **static snapshot**: Actions crawls → writes JSON +
-screenshots → Pages hosts the dashboard reading them. (The live "Trigger Manual
-Crawl" button needs a server, so in the published build it's replaced by a
-"re-run the workflow" notice.)
+Published live at **https://kingbondproduct.github.io/website_bug_finder/** using **GitHub alone** —
+no external host. GitHub Pages serves static files and GitHub Actions runs the crawler in CI, so the
+published site is a **static snapshot**: Actions crawls → writes JSON + screenshots → Pages hosts the
+dashboard reading them. In the published build, the live "Trigger Manual Crawl" button is replaced by
+an **"Audit a specific URL"** panel that hands off to the Actions workflow.
 
-**How it works**
+**How it works** (results persist across runs — see [Path B](#-end-to-end-technical-flow)):
 ```
- Actions (workflow_dispatch)
-   npm run crawl:static   →  apps/web/public/data/{jobs.json, <id>/{pages,bugs}.json, screenshots}
-   npm run build          →  static dashboard (VITE_STATIC=1, VITE_BASE=/website_bug_finder/)
-   deploy-pages           →  https://<owner>.github.io/website_bug_finder/
+ Actions (manual / "Audit a URL" / nightly cron)
+   restore   ←  git clone branch `crawl-data` → apps/web/public/data/   (prior runs)
+   crawl     →  npm run crawl:static   (ACCUMULATE into jobs.json, cap CRAWL_KEEP_RUNS)
+   build     →  static dashboard (VITE_STATIC=1, VITE_BASE=/website_bug_finder/)
+   deploy    →  https://<owner>.github.io/website_bug_finder/
+   persist   →  force-push apps/web/public/data → branch `crawl-data`   (for next run)
 ```
 
 **One-time setup**
-1. Repo **Settings → Pages → Build and deployment → Source = "GitHub Actions"**.
-2. That's it — the workflow ([.github/workflows/publish.yml](.github/workflows/publish.yml)) handles the rest.
+1. Repo must be **public** (or GitHub Pro/Team for private Pages).
+2. Repo **Settings → Pages → Build and deployment → Source = "GitHub Actions"**.
+3. That's it — the workflow ([.github/workflows/publish.yml](.github/workflows/publish.yml)) handles the rest (it also creates/updates the `crawl-data` branch; needs `contents: write`, already set).
 
 **Publish / refresh results**
-- Go to the **Actions** tab → **"Publish (crawl + Pages)"** → **Run workflow**, choosing:
-  - `mode` — `site` (26 seeds + recursion) or `single`
-  - `url` (single mode), `maxDepth`, `maxPages` (site mode)
-- When it finishes, the site is live at `https://kingbondproduct.github.io/website_bug_finder/`.
+- **Site-wide / manual:** **Actions** tab → **"Publish (crawl + Pages)"** → **Run workflow** — choose
+  `mode` (`site`/`single`), and `url` / `maxDepth` / `maxPages`.
+- **A specific URL (from the published site):** use the **"Audit a specific URL"** panel — it copies
+  your URL and opens the dispatch page; pick `mode=single`, paste, Run.
+- **Automatically:** the **nightly** cron re-crawls site-wide. Each run **appends** to Crawl History.
 
 **Try the static build locally**
 ```bash
-CRAWL_MODE=single CRAWL_URL=https://www.atherenergy.com/contact npm run crawl:static
+CRAWL_MODE=single CRAWL_URL=https://www.atherenergy.com/contact npm run crawl:static  # run again to accumulate
 VITE_STATIC=1 VITE_BASE=/ npm run build
 npx --workspace @bugfinder/web vite preview --port 4173   # → http://localhost:4173
 ```
 
-> **Notes:** the published site shows the **latest run only** (results aren't committed —
-> each run republishes via the Pages artifact). Keep `maxPages` modest — full-page PNGs are
-> large and Pages caps files at 100MB / sites at ~1GB. For a custom domain or user/org Pages,
-> build with `VITE_BASE=/`.
+> **Notes:** history is **retained across runs** on the `crawl-data` branch and capped by
+> `CRAWL_KEEP_RUNS` (default 15) — single-URL audits don't clobber the site-wide snapshot. Keep
+> `maxPages` modest: full-page PNGs are large and Pages caps files at 100MB / sites at ~1GB. For a
+> custom domain or user/org Pages, build with `VITE_BASE=/`.
 
 ---
 
@@ -435,22 +459,24 @@ npx --workspace @bugfinder/web vite preview --port 4173   # → http://localhost
 
 ```
 prisma/schema.prisma            # DB schema (CrawlJobs · PagesDiscovered · BugsFound)
-packages/shared/src/types.ts    # shared DTOs / category & severity enums
+packages/shared/src/types.ts    # shared DTOs, enums, + ATHER_SEED_URLS (reused by API & web)
 apps/api/src/
   server.ts                     # Fastify app + SSE + static screenshots
   routes/crawls.ts              # REST endpoints
   queue/                        # in-process queue + event bus
-  batch.ts                      # CI entry: crawl → static JSON + screenshots (JsonSink)
+  batch.ts                      # CI entry: crawl → static JSON (JsonSink) + accumulate history
   crawler/
     engine.ts                   # storage-agnostic BFS orchestrator + CrawlSink interface
     crawl.ts                    # live-worker wrapper (PrismaSink + SSE)
     prismaSink.ts               # DB persistence sink
     categorize.ts               # ⭐ the Bug Categorization Engine
     checks/                     # link · console · image · content · performance · screenshot
-apps/web/src/                   # React dashboard (TriggerCrawlPanel · JobProgress · BugMatrix · JobsList)
+apps/web/src/                   # React dashboard
+  components/                   # TriggerCrawlPanel · AuditUrlPanel · JobProgress · BugMatrix · JobsList
+  urls.ts                       # URL validation, Ather-domain guard, Actions deep-link builder
   api.ts                        # data layer: live (server) + static (Pages) adapters
 docs/                           # taxonomy · changelog · roadmap
-.github/workflows/publish.yml   # manual crawl → GitHub Pages deploy
+.github/workflows/publish.yml   # crawl (restore→accumulate→persist via crawl-data branch) → Pages
 .claude/skills/run-website-bug-finder/   # run skill + Playwright driver
 ```
 
