@@ -1,0 +1,770 @@
+[
+  {
+    "id": "7ce37e49-b36b-4395-93a6-e23ee0ba92e2",
+    "url": "https://www.atherenergy.com/",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>.",
+    "viewport": "desktop",
+    "evidence": {
+      "error": "X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>."
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "23872697-bb17-4f27-802e-1b9f9634c686",
+    "url": "https://www.atherenergy.com/",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin",
+    "viewport": "desktop",
+    "evidence": {
+      "error": "Failed to load resource: net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "aad642c7-def7-4eaf-b0b6-7ec606973963",
+    "url": "https://www.atherenergy.com/",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"centre\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "centre"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "48a77d66-ec85-41ad-953c-62513c782479",
+    "url": "https://www.atherenergy.com/",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "mobile",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "3f16f010-7e9d-44f4-8fd6-b65922aefd1e",
+    "url": "https://www.atherenergy.com/contact",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>.",
+    "viewport": "both",
+    "evidence": {
+      "error": "X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>."
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "c2152da2-7156-4285-976a-244ba7f5e5e9",
+    "url": "https://www.atherenergy.com/ather-battery-warranty",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>.",
+    "viewport": "desktop",
+    "evidence": {
+      "error": "X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>."
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "7db78d37-d881-4a67-bf35-b7fc3dbc8c94",
+    "url": "https://www.atherenergy.com/ather-battery-warranty",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"gradeability\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "gradeability"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "ec84d419-b4ea-46ce-b88c-e98462098cbb",
+    "url": "https://www.atherenergy.com/ather-battery-warranty",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "mobile",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "5d0dac23-ee64-46c1-859b-6b83ae97de69",
+    "url": "https://www.atherenergy.com/blog",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "e8d402c9-9c06-4bbd-b652-b1a3a32ab672",
+    "url": "https://www.atherenergy.com/flexipay",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "0233d7c3-adee-452b-b10c-b2c62720ec54",
+    "url": "https://www.atherenergy.com/flexipay",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"cdcfd\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "cdcfd"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "39cd98be-e590-4459-9d68-fca01bb91109",
+    "url": "https://www.atherenergy.com/ather-battery-rental",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "88fa0f7f-3486-430c-b139-4c416e8f44f0",
+    "url": "https://www.atherenergy.com/ather-assured-buyback",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "6a04b966-8276-4a23-b2a7-d170b023235d",
+    "url": "https://www.atherenergy.com/investor-relations",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "f29e04d1-b57d-4138-8fc6-4b62d42652db",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=16&q=75",
+    "viewport": "desktop",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=16&q=75",
+      "statusCode": 403,
+      "resourceType": "image",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "29fbd3d4-c5e0-4e56-bdfb-8716cc445246",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>.",
+    "viewport": "both",
+    "evidence": {
+      "error": "X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>."
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "1dd27dc8-431a-4145-8570-8c63777f3c96",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "282fd20b-b2a3-4e4e-b305-227dd612ac3a",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Visual Bug",
+    "severity": "Medium",
+    "type": "broken-image",
+    "message": "Broken image (HTTP 403): https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=16&q=75",
+    "viewport": "desktop",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=16&q=75",
+      "selector": "img:nth-of-type(12)",
+      "alt": "",
+      "naturalWidth": 0,
+      "statusCode": 403
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "eb9f73d2-8507-4eaa-8203-3be59af54a80",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=32&q=75",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=32&q=75",
+      "statusCode": 403,
+      "resourceType": "image",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "8dc5f764-fb5f-49fd-a461-cde988e73280",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/static/PikEmDWOM0J-eLTpyL4Jy/_clientMiddlewareManifest.json",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/static/PikEmDWOM0J-eLTpyL4Jy/_clientMiddlewareManifest.json",
+      "statusCode": 403,
+      "resourceType": "fetch",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "7b4401ff-ed09-4778-9081-7034d69d9bd7",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2F450s-mono-cosmic-black-d-color.webp&w=1920&q=75",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2F450s-mono-cosmic-black-d-color.webp&w=1920&q=75",
+      "statusCode": 403,
+      "resourceType": "image",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "94a468b3-8c8f-4014-b6d3-73e93cbdc13c",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/api/city-data",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/api/city-data",
+      "statusCode": 403,
+      "resourceType": "xhr",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "8cad795d-50a6-4088-82ea-e873d3c2a17b",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/api/header-footer-chatbot",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/api/header-footer-chatbot",
+      "statusCode": 403,
+      "resourceType": "xhr",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "db21d067-cd9d-422f-a608-8fe75842d0a6",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/data/PikEmDWOM0J-eLTpyL4Jy/en-US/policy.json?slug=policy",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/data/PikEmDWOM0J-eLTpyL4Jy/en-US/policy.json?slug=policy",
+      "statusCode": 403,
+      "resourceType": "fetch",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "b39adde8-0b79-47d2-aa79-6ce8e9daa500",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: AxiosError: Request failed with status code 403\n    at eK (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:66727)\n    at XMLHttpRequest.m (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:74283) Failed to get city data from cms",
+    "viewport": "mobile",
+    "evidence": {
+      "error": "AxiosError: Request failed with status code 403\n    at eK (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:66727)\n    at XMLHttpRequest.m (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:74283) Failed to get city data from cms"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "77ee4d90-64e6-43ff-9a87-b43788734bda",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: AxiosError: Request failed with status code 403\n    at eK (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:66727)\n    at XMLHttpRequest.m (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:74283) Failed to get header data from cms",
+    "viewport": "mobile",
+    "evidence": {
+      "error": "AxiosError: Request failed with status code 403\n    at eK (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:66727)\n    at XMLHttpRequest.m (https://www.atherenergy.com/_next/static/chunks/6833cdd20baf712e.js:1:74283) Failed to get header data from cms"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "648dd334-3598-4b44-9d4e-e88b279fe11d",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Visual Bug",
+    "severity": "Medium",
+    "type": "broken-image",
+    "message": "Broken image (HTTP 403): https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2F450s-mono-cosmic-black-d-color.webp&w=1920&q=75",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2F450s-mono-cosmic-black-d-color.webp&w=1920&q=75",
+      "selector": "img:nth-of-type(3)",
+      "alt": "model image",
+      "naturalWidth": 0,
+      "statusCode": 403
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "63a4fd53-5125-41e8-8d8b-7716b53bd774",
+    "url": "https://www.atherenergy.com/450/configurator",
+    "category": "Visual Bug",
+    "severity": "Medium",
+    "type": "broken-image",
+    "message": "Broken image (HTTP 403): https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=32&q=75",
+    "viewport": "mobile",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2Fparty-popper-color.png&w=32&q=75",
+      "selector": "img:nth-of-type(13)",
+      "alt": "",
+      "naturalWidth": 0,
+      "statusCode": 403
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "f64c986a-d5db-495d-90e0-77047de49c37",
+    "url": "https://www.atherenergy.com/ather-ecw",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "188b8933-9fe2-44b7-aedc-b0e87a8b985e",
+    "url": "https://www.atherenergy.com/ather-advantage",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "645c7355-3d69-4421-a4fd-564ad3595ac1",
+    "url": "https://www.atherenergy.com/ather-offers-1",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "3a37d0e0-1c45-45ca-8221-3789856379b2",
+    "url": "https://www.atherenergy.com/locate-ather-dealer",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "b636faee-09db-4ffd-8e17-00bf530b3122",
+    "url": "https://www.atherenergy.com/blog/how-to-calculate-electric-scooter-range",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "4667599c-3db1-4d70-ad69-df6d21b31476",
+    "url": "https://www.atherenergy.com/electric-scooter-price-in-bengaluru",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "f6e2a1b5-3e52-4a7a-9af2-6bb9aa33aa7e",
+    "url": "https://www.atherenergy.com/blog/author/atul-rajan",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "0a84ea19-9d2c-4a31-8a7e-56e436947cf1",
+    "url": "https://www.atherenergy.com/compare-electric-scooter",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "2be35d44-fc78-4ef1-ad1a-de01391beb0e",
+    "url": "https://www.atherenergy.com/electric-scooter-all-models",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "9bd9c3b1-8b78-4921-b722-e8923197bfa4",
+    "url": "https://www.atherenergy.com/faq",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "9e56e581-f628-451e-bcdb-3ad0f1a09457",
+    "url": "https://www.atherenergy.com/charging",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "60ff2ba7-7c78-4797-a2be-1dbc0828493e",
+    "url": "https://www.atherenergy.com/charging",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"cbcead\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "cbcead"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "de5ffd65-441f-4d5b-bba7-8060c3d6095b",
+    "url": "https://www.atherenergy.com/electric-scooter-emi-calculator",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "2ec43de9-510c-4f13-8a5d-e736c311d0b5",
+    "url": "https://www.atherenergy.com/electric-scooter-emi-calculator",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"edcdd\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "edcdd"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "e0238220-45e0-4b78-83a1-77d6261ce997",
+    "url": "https://www.atherenergy.com/tco",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "6415281b-38cb-4456-8811-6dc2fe8bb1b6",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Broken Link",
+    "severity": "Medium",
+    "type": "broken-link",
+    "message": "Broken resource 403: https://www.atherenergy.com/_next/static/PikEmDWOM0J-eLTpyL4Jy/_clientMiddlewareManifest.json",
+    "viewport": "both",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/static/PikEmDWOM0J-eLTpyL4Jy/_clientMiddlewareManifest.json",
+      "statusCode": 403,
+      "resourceType": "fetch",
+      "fromRedirect": false
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "04b47d32-e8b1-4cb6-b1a0-dc6bebda9857",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>.",
+    "viewport": "both",
+    "evidence": {
+      "error": "X-Frame-Options may only be set via an HTTP header sent along with a document. It may not be set inside <meta>."
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "3f8b4e1d-66e1-4789-89a9-6fa80db7c6d0",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "1ef8dc6d-0630-47e1-bfc4-480731a43d32",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Visual Bug",
+    "severity": "Medium",
+    "type": "broken-image",
+    "message": "Broken image (HTTP 403): https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2FDesk-multi-language-dashboard.webp&w=1920&q=75",
+    "viewport": "desktop",
+    "evidence": {
+      "resourceUrl": "https://www.atherenergy.com/_next/image?url=https%3A%2F%2Fmedia.atherenergy.com%2FDesk-multi-language-dashboard.webp&w=1920&q=75",
+      "selector": "img:nth-of-type(30)",
+      "alt": "",
+      "naturalWidth": 0,
+      "statusCode": 403
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "d7af9992-ec72-47a2-83af-f3e6b0833989",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"learnt\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "learnt"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "6e4ca359-4bce-44aa-800c-3b27c8db278d",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"colour\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "colour"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "9be18bda-45a3-4705-9b3c-cf445dc0dba1",
+    "url": "https://www.atherenergy.com/rizta",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"litre\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "litre"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "1cc4ba15-b27b-4f89-b1f1-c7dc593f092a",
+    "url": "https://www.atherenergy.com/atherstack",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "f637046a-6bc5-4fb3-ab5a-0df754a830cb",
+    "url": "https://www.atherenergy.com/atherstack",
+    "category": "Copy Issue",
+    "severity": "Low",
+    "type": "spelling",
+    "message": "Possible spelling issue: \"bbfa\"",
+    "viewport": "desktop",
+    "evidence": {
+      "word": "bbfa"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "5c33f353-97fc-4960-a678-0d19bcd08019",
+    "url": "https://www.atherenergy.com/testride/konarc",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "f2584dbd-aecf-439e-8939-b6847cef1bc6",
+    "url": "https://www.atherenergy.com/konarc",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "099d59d3-6a35-4654-a656-f1fa57521cd5",
+    "url": "https://www.atherenergy.com/ather-service-center",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  },
+  {
+    "id": "ac2e5b9b-3601-453b-ad6c-40e04f4e98a4",
+    "url": "https://www.atherenergy.com/450",
+    "category": "Server Error",
+    "severity": "Medium",
+    "type": "console-error",
+    "message": "Console error: Failed to load resource: the server responded with a status of 403 ()",
+    "viewport": "both",
+    "evidence": {
+      "error": "Failed to load resource: the server responded with a status of 403 ()"
+    },
+    "createdAt": "2026-10-30T06:17:53.670Z"
+  }
+]
